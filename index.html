@@ -109,11 +109,50 @@
             letter-spacing: 1px;
         }
         
+        .question-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .musician-image {
+            width: 120px; /* Increased from 80px (50% larger) */
+            height: 120px; /* Increased from 80px (50% larger) */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Artist-specific image borders */
+        .beethoven .musician-image {
+            border-color: #d4af37;
+        }
+        
+        .dylan .musician-image {
+            border-color: #654321;
+        }
+        
+        .whitney .musician-image {
+            border-color: #ffd700;
+        }
+        
+        .rockabilly .musician-image {
+            border-color: #ff6347;
+        }
+        
+        .snoop .musician-image {
+            border-color: #ffd700;
+        }
+        
         .question-text {
             text-align: center;
             font-size: 1.3em;
             line-height: 1.4;
-            margin-bottom: 30px;
+            margin: 0;
+            flex: 1;
         }
         
         .video-section {
@@ -376,6 +415,20 @@
                 padding: 5px 15px;
                 top: 10px;
             }
+            
+            .question-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .musician-image {
+                width: 90px; /* Increased from 60px (50% larger for mobile too) */
+                height: 90px; /* Increased from 60px (50% larger for mobile too) */
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
         }
     </style>
 </head>
@@ -386,8 +439,11 @@
     
     <!-- Question 1: Bob Dylan (moved to first) -->
     <div class="question-section dylan">
-        <div class="question-text">
-            Can you recognize the real Bob Dylan and all his poetic genius from an AI imitation? Listen carefully to distinguish the authentic voice from the artificial recreation.
+        <div class="question-header">
+            <img src="https://visualmusicalminds.github.io/images/BobDylan.jpg" alt="Bob Dylan" class="musician-image">
+            <div class="question-text">
+                Can you recognize the real Bob Dylan and all his poetic genius from an AI imitation? Listen carefully to distinguish the authentic voice from the artificial recreation.
+            </div>
         </div>
         
         <div class="video-section">
@@ -427,8 +483,11 @@
     
     <!-- Question 2: Whitney Houston -->
     <div class="question-section whitney">
-        <div class="question-text">
-            Can you tell the silky smooth vocals of Whitney Houston from an AI imitation? Listen carefully to identify the genuine powerhouse voice from the artificial recreation.
+        <div class="question-header">
+            <img src="https://visualmusicalminds.github.io/images/WhitneyHouston.jpg" alt="Whitney Houston" class="musician-image">
+            <div class="question-text">
+                Can you tell the silky smooth vocals of Whitney Houston from an AI imitation? Listen carefully to identify the genuine powerhouse voice from the artificial recreation.
+            </div>
         </div>
         
         <div class="video-section">
@@ -468,8 +527,11 @@
     
     <!-- Question 3: Rockabilly -->
     <div class="question-section rockabilly">
-        <div class="question-text">
-            Can you tell the difference between the gritty sounds of Rockabilly and an AI imitation? Listen carefully to distinguish the authentic raw energy from the artificial recreation.
+        <div class="question-header">
+            <img src="https://visualmusicalminds.github.io/images/Rockabilly.jpg" alt="Rockabilly" class="musician-image">
+            <div class="question-text">
+                Can you tell the difference between the gritty sounds of Rockabilly and an AI imitation? Listen carefully to distinguish the authentic raw energy from the artificial recreation.
+            </div>
         </div>
         
         <div class="video-section">
@@ -509,8 +571,11 @@
     
     <!-- Question 4: Snoop Dogg -->
     <div class="question-section snoop">
-        <div class="question-text">
-            Can you recognize the iconic voice of rapper Snoop Dogg versus an AI imitator? Listen carefully to distinguish the legendary flow from the artificial recreation.
+        <div class="question-header">
+            <img src="https://visualmusicalminds.github.io/images/SnoopDogg.jpg" alt="Snoop Dogg" class="musician-image">
+            <div class="question-text">
+                Can you recognize the iconic voice of rapper Snoop Dogg versus an AI imitator? Listen carefully to distinguish the legendary flow from the artificial recreation.
+            </div>
         </div>
         
         <div class="video-section">
@@ -550,8 +615,11 @@
     
     <!-- Question 5: Beethoven (moved to last) -->
     <div class="question-section beethoven">
-        <div class="question-text">
-            Can you distinguish between the timeless genius of Beethoven's original composition and a sophisticated AI recreation? Listen carefully and see if you can tell the difference.
+        <div class="question-header">
+            <img src="https://visualmusicalminds.github.io/images/Beethoven.jpg" alt="Beethoven" class="musician-image">
+            <div class="question-text">
+                Can you distinguish between the timeless genius of Beethoven's original composition and a sophisticated AI recreation? Listen carefully and see if you can tell the difference.
+            </div>
         </div>
         
         <div class="video-section">
