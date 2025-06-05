@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is it AI or is it real?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Permanent+Marker&family=Dancing+Script:wght@400;700&family=Creepster&family=Bungee&display=swap');
+        
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .question-section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Beethoven - Classical elegance */
+        .question-section.beethoven {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #f4f4f4;
+            border: 3px solid #d4af37;
+        }
+        
+        .question-section.beethoven .question-text {
+            font-family: 'Cinzel', serif;
+            color: #f4f4f4;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        /* Bob Dylan - Folk/Rock handwritten style */
+        .question-section.dylan {
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #cd853f 100%);
+            color: #f5f5dc;
+            border: 3px solid #654321;
+            transform: rotate(-0.5deg);
+        }
+        
+        .question-section.dylan .question-text {
+            font-family: 'Permanent Marker', cursive;
+            color: #f5f5dc;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            transform: rotate(0.3deg);
+        }
+        
+        /* Whitney Houston - Glamorous and smooth */
+        .question-section.whitney {
+            background: linear-gradient(135deg, #ff1493 0%, #dc143c 50%, #b22222 100%);
+            color: #fff;
+            border: 3px solid #ffd700;
+        }
+        
+        .question-section.whitney .question-text {
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.4em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        /* Rockabilly - Gritty and rebellious */
+        .question-section.rockabilly {
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 50%, #000 100%);
+            color: #ff4500;
+            border: 3px solid #ff6347;
+            transform: rotate(0.8deg);
+        }
+        
+        .question-section.rockabilly .question-text {
+            font-family: 'Creepster', cursive;
+            color: #ff4500;
+            text-shadow: 3px 3px 6px rgba(255,0,0,0.5);
+            letter-spacing: 1px;
+        }
+        
+        /* Snoop Dogg - Hip-hop urban style */
+        .question-section.snoop {
+            background: linear-gradient(135deg, #4b0082 0%, #8a2be2 50%, #9932cc 100%);
+            color: #00ff00;
+            border: 3px solid #ffd700;
+            transform: rotate(-0.3deg);
+        }
+        
+        .question-section.snoop .question-text {
+            font-family: 'Bungee', cursive;
+            color: #00ff00;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            text-align: center;
+            font-size: 1.3em;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+        
+        .video-section {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: nowrap;
+        }
+        
+        .video-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 320px;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+            margin-bottom: 15px;
+        }
+        
+        .video-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .question-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            transition: opacity 0.5s ease;
+            z-index: 10;
+            /* Create cutout in bottom left corner */
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 60px 100%, 60px calc(100% - 35px), 0 calc(100% - 35px));
+        }
+        
+        .question-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .video-label {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: 7px 21px; /* Increased from 4px 12px (about 40% larger) */
+            border-radius: 21px; /* Increased from 15px */
+            font-weight: bold;
+            font-size: 1.4em; /* Increased from 1em (40% larger) */
+            z-index: 11;
+        }
+        
+        /* Video A - Green background */
+        .video-label.video-a {
+            background: #228B22; /* Forest Green */
+        }
+        
+        /* Video B - Medium velvety red background */
+        .video-label.video-b {
+            background: #B22222; /* Fire Brick Red */
+        }
+        
+        .play-hint {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            z-index: 11;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .reveal-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .reset-container {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .btn.load-btn {
+            background: #2196F3;
+            font-size: 1.1em;
+            padding: 12px 24px;
+            border-radius: 8px;
+        }
+        
+        .btn.load-btn:hover {
+            background: #1976D2;
+        }
+        
+        .btn.load-btn.loaded {
+            background: #4CAF50;
+        }
+        
+        .btn.reveal-btn {
+            background: #FF5722;
+            font-size: 1.5em;
+            padding: 20px 40px;
+            border-radius: 12px;
+        }
+        
+        .btn.reveal-btn:hover {
+            background: #E64A19;
+        }
+        
+        .btn.reset-all-btn {
+            background: #6c757d;
+            font-size: 1.3em;
+            padding: 18px 35px;
+            border-radius: 12px;
+        }
+        
+        .btn.reset-all-btn:hover {
+            background: #545b62;
+        }
+        
+        /* Themed button styles */
+        .beethoven .btn.load-btn,
+        .beethoven .btn.reveal-btn {
+            background: #d4af37;
+            color: #1a1a2e;
+            border: 2px solid #f4f4f4;
+        }
+        
+        .beethoven .btn.load-btn:hover,
+        .beethoven .btn.reveal-btn:hover {
+            background: #b8941f;
+        }
+        
+        .dylan .btn.load-btn,
+        .dylan .btn.reveal-btn {
+            background: #654321;
+            color: #f5f5dc;
+            border: 2px solid #8b4513;
+            transform: rotate(-1deg);
+        }
+        
+        .dylan .btn.load-btn:hover,
+        .dylan .btn.reveal-btn:hover {
+            background: #4a2c17;
+            transform: rotate(-1deg) scale(1.05);
+        }
+        
+        .whitney .btn.load-btn,
+        .whitney .btn.reveal-btn {
+            background: #ffd700;
+            color: #dc143c;
+            border: 2px solid #fff;
+        }
+        
+        .whitney .btn.load-btn:hover,
+        .whitney .btn.reveal-btn:hover {
+            background: #e6c200;
+        }
+        
+        .rockabilly .btn.load-btn,
+        .rockabilly .btn.reveal-btn {
+            background: #ff6347;
+            color: #000;
+            border: 2px solid #ff4500;
+            transform: rotate(-2deg);
+        }
+        
+        .rockabilly .btn.load-btn:hover,
+        .rockabilly .btn.reveal-btn:hover {
+            background: #ff4500;
+            transform: rotate(-2deg) scale(1.05);
+        }
+        
+        .snoop .btn.load-btn,
+        .snoop .btn.reveal-btn {
+            background: #ffd700;
+            color: #4b0082;
+            border: 2px solid #00ff00;
+        }
+        
+        .snoop .btn.load-btn:hover,
+        .snoop .btn.reveal-btn:hover {
+            background: #e6c200;
+        }
+        
+        @media (max-width: 768px) {
+            .video-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .video-wrapper {
+                width: 100%;
+                max-width: 320px;
+                margin-bottom: 10px;
+            }
+            
+            .question-overlay {
+                font-size: 3.5em;
+            }
+            
+            .question-section.dylan,
+            .question-section.rockabilly,
+            .question-section.snoop {
+                transform: none;
+            }
+            
+            .video-label {
+                font-size: 1.2em; /* Slightly smaller on mobile */
+                padding: 5px 15px;
+                top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Is it AI or is it real?</h1>
+    </div>
+    
+    <!-- Question 1: Bob Dylan (moved to first) -->
+    <div class="question-section dylan">
+        <div class="question-text">
+            Can you recognize the real Bob Dylan and all his poetic genius from an AI imitation? Listen carefully to distinguish the authentic voice from the artificial recreation.
+        </div>
+        
+        <div class="video-section">
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video1A" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay1A">?</div>
+                    <div class="video-label video-a">Video A</div>
+                    <div class="play-hint" id="hint1A" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load1A" onclick="loadVideo(1, 'A')">Load</button>
+            </div>
+            
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video1B" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay1B">?</div>
+                    <div class="video-label video-b">Video B</div>
+                    <div class="play-hint" id="hint1B" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load1B" onclick="loadVideo(1, 'B')">Load</button>
+            </div>
+        </div>
+        
+        <div class="reveal-container">
+            <button class="btn reveal-btn" onclick="revealVideos(1)">Reveal Videos</button>
+        </div>
+    </div>
+    
+    <!-- Question 2: Whitney Houston -->
+    <div class="question-section whitney">
+        <div class="question-text">
+            Can you tell the silky smooth vocals of Whitney Houston from an AI imitation? Listen carefully to identify the genuine powerhouse voice from the artificial recreation.
+        </div>
+        
+        <div class="video-section">
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video2A" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay2A">?</div>
+                    <div class="video-label video-a">Video A</div>
+                    <div class="play-hint" id="hint2A" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load2A" onclick="loadVideo(2, 'A')">Load</button>
+            </div>
+            
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video2B" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay2B">?</div>
+                    <div class="video-label video-b">Video B</div>
+                    <div class="play-hint" id="hint2B" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load2B" onclick="loadVideo(2, 'B')">Load</button>
+            </div>
+        </div>
+        
+        <div class="reveal-container">
+            <button class="btn reveal-btn" onclick="revealVideos(2)">Reveal Videos</button>
+        </div>
+    </div>
+    
+    <!-- Question 3: Rockabilly -->
+    <div class="question-section rockabilly">
+        <div class="question-text">
+            Can you tell the difference between the gritty sounds of Rockabilly and an AI imitation? Listen carefully to distinguish the authentic raw energy from the artificial recreation.
+        </div>
+        
+        <div class="video-section">
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video3A" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay3A">?</div>
+                    <div class="video-label video-a">Video A</div>
+                    <div class="play-hint" id="hint3A" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load3A" onclick="loadVideo(3, 'A')">Load</button>
+            </div>
+            
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video3B" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay3B">?</div>
+                    <div class="video-label video-b">Video B</div>
+                    <div class="play-hint" id="hint3B" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load3B" onclick="loadVideo(3, 'B')">Load</button>
+            </div>
+        </div>
+        
+        <div class="reveal-container">
+            <button class="btn reveal-btn" onclick="revealVideos(3)">Reveal Videos</button>
+        </div>
+    </div>
+    
+    <!-- Question 4: Snoop Dogg -->
+    <div class="question-section snoop">
+        <div class="question-text">
+            Can you recognize the iconic voice of rapper Snoop Dogg versus an AI imitator? Listen carefully to distinguish the legendary flow from the artificial recreation.
+        </div>
+        
+        <div class="video-section">
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video4A" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay4A">?</div>
+                    <div class="video-label video-a">Video A</div>
+                    <div class="play-hint" id="hint4A" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load4A" onclick="loadVideo(4, 'A')">Load</button>
+            </div>
+            
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video4B" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay4B">?</div>
+                    <div class="video-label video-b">Video B</div>
+                    <div class="play-hint" id="hint4B" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load4B" onclick="loadVideo(4, 'B')">Load</button>
+            </div>
+        </div>
+        
+        <div class="reveal-container">
+            <button class="btn reveal-btn" onclick="revealVideos(4)">Reveal Videos</button>
+        </div>
+    </div>
+    
+    <!-- Question 5: Beethoven (moved to last) -->
+    <div class="question-section beethoven">
+        <div class="question-text">
+            Can you distinguish between the timeless genius of Beethoven's original composition and a sophisticated AI recreation? Listen carefully and see if you can tell the difference.
+        </div>
+        
+        <div class="video-section">
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video5A" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay5A">?</div>
+                    <div class="video-label video-a">Video A</div>
+                    <div class="play-hint" id="hint5A" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load5A" onclick="loadVideo(5, 'A')">Load</button>
+            </div>
+            
+            <div class="video-column">
+                <div class="video-wrapper">
+                    <iframe id="video5B" class="video-frame" 
+                            src="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div class="question-overlay" id="overlay5B">?</div>
+                    <div class="video-label video-b">Video B</div>
+                    <div class="play-hint" id="hint5B" style="display: none;">▶️ Click here to play</div>
+                </div>
+                <button class="btn load-btn" id="load5B" onclick="loadVideo(5, 'B')">Load</button>
+            </div>
+        </div>
+        
+        <div class="reveal-container">
+            <button class="btn reveal-btn" onclick="revealVideos(5)">Reveal Videos</button>
+        </div>
+    </div>
+    
+    <div class="reset-container">
+        <button class="btn reset-all-btn" onclick="resetAllQuestions()">🔄 Reset All Questions</button>
+    </div>
+
+    <script>
+        // Video URLs for each question (reordered to match new layout)
+        const questionVideos = {
+            1: ["txcVHdouvYg", "UURr0ptUJZk"],              // Bob Dylan (now question 1)
+            2: ["V76Uvnh1kz0", "c0TghfreFok"],              // Whitney Houston (now question 2)
+            3: ["RUi6yPyGX_Q", "eNQazP-wdj4"],              // Rockabilly (now question 3)
+            4: ["QCsexd1WZgI", "khkE17A5d7Y"],              // Snoop Dogg (now question 4)
+            5: ["Aru-I7T8NDs", "ByS9DHxysSI"]               // Beethoven (now question 5)
+        };
+        
+        // Store randomized video assignments for each question
+        let videoUrls = {};
+        let videosRevealed = { 1: false, 2: false, 3: false, 4: false, 5: false };
+        let loadedVideos = { 
+            1: { A: false, B: false },
+            2: { A: false, B: false },
+            3: { A: false, B: false },
+            4: { A: false, B: false },
+            5: { A: false, B: false }
+        };
+        
+        function randomizeVideos(questionNum) {
+            // Create a shuffled copy of the videos for this question
+            const shuffled = [...questionVideos[questionNum]];
+            
+            // Fisher-Yates shuffle algorithm
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            
+            // Assign shuffled videos to A and B for this question
+            videoUrls[questionNum] = {
+                A: shuffled[0],
+                B: shuffled[1]
+            };
+            
+            // For debugging/verification (you can remove this in production)
+            console.log(`Question ${questionNum} - Video A:`, videoUrls[questionNum].A);
+            console.log(`Question ${questionNum} - Video B:`, videoUrls[questionNum].B);
+        }
+        
+        function loadVideo(questionNum, video) {
+            const videoFrame = document.getElementById(`video${questionNum}${video}`);
+            const loadButton = document.getElementById(`load${questionNum}${video}`);
+            const hint = document.getElementById(`hint${questionNum}${video}`);
+            
+            if (loadedVideos[questionNum][video]) {
+                return;
+            }
+            
+            // Load the video with enhanced ad-blocking parameters
+            const videoId = videoUrls[questionNum][video];
+            const embedUrl = `https://www.youtube.com/embed/${videoId}?controls=1&enablejsapi=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=1&start=1`;
+            
+            videoFrame.src = embedUrl;
+            loadedVideos[questionNum][video] = true;
+            
+            // Update button
+            loadButton.textContent = `✅ Ready`;
+            loadButton.classList.add('loaded');
+            
+            // Show the play hint
+            hint.style.display = 'block';
+        }
+        
+        function revealVideos(questionNum) {
+            const overlayA = document.getElementById(`overlay${questionNum}A`);
+            const overlayB = document.getElementById(`overlay${questionNum}B`);
+            const videoA = document.getElementById(`video${questionNum}A`);
+            const videoB = document.getElementById(`video${questionNum}B`);
+            const hintA = document.getElementById(`hint${questionNum}A`);
+            const hintB = document.getElementById(`hint${questionNum}B`);
+            
+            // Load videos if not already loaded
+            if (!loadedVideos[questionNum].A) {
+                videoA.src = `https://www.youtube.com/embed/${videoUrls[questionNum].A}?controls=1&enablejsapi=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=1&start=1`;
+                loadedVideos[questionNum].A = true;
+            }
+            if (!loadedVideos[questionNum].B) {
+                videoB.src = `https://www.youtube.com/embed/${videoUrls[questionNum].B}?controls=1&enablejsapi=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=1&start=1`;
+                loadedVideos[questionNum].B = true;
+            }
+            
+            // Remove overlays
+            overlayA.classList.add('hidden');
+            overlayB.classList.add('hidden');
+            
+            // Hide hints since videos are now fully visible
+            hintA.style.display = 'none';
+            hintB.style.display = 'none';
+            
+            videosRevealed[questionNum] = true;
+            
+            // Update button text
+            const revealBtn = event.target;
+            revealBtn.textContent = '✅ Revealed!';
+            revealBtn.style.background = '#4CAF50';
+            
+            // Update load buttons
+            document.getElementById(`load${questionNum}A`).textContent = '✅ Ready';
+            document.getElementById(`load${questionNum}A`).classList.add('loaded');
+            document.getElementById(`load${questionNum}B`).textContent = '✅ Ready';
+            document.getElementById(`load${questionNum}B`).classList.add('loaded');
+        }
+        
+        function resetAllQuestions() {
+            // Reset all five questions
+            for (let questionNum = 1; questionNum <= 5; questionNum++) {
+                // Randomize videos again for this question
+                randomizeVideos(questionNum);
+                
+                // Clear videos
+                const videoA = document.getElementById(`video${questionNum}A`);
+                const videoB = document.getElementById(`video${questionNum}B`);
+                videoA.src = '';
+                videoB.src = '';
+                
+                // Reset overlays
+                const overlayA = document.getElementById(`overlay${questionNum}A`);
+                const overlayB = document.getElementById(`overlay${questionNum}B`);
+                overlayA.classList.remove('hidden');
+                overlayB.classList.remove('hidden');
+                
+                // Hide hints
+                const hintA = document.getElementById(`hint${questionNum}A`);
+                const hintB = document.getElementById(`hint${questionNum}B`);
+                hintA.style.display = 'none';
+                hintB.style.display = 'none';
+                
+                // Reset state
+                videosRevealed[questionNum] = false;
+                loadedVideos[questionNum] = { A: false, B: false };
+                
+                // Reset buttons
+                document.getElementById(`load${questionNum}A`).textContent = 'Load';
+                document.getElementById(`load${questionNum}A`).classList.remove('loaded');
+                document.getElementById(`load${questionNum}B`).textContent = 'Load';
+                document.getElementById(`load${questionNum}B`).classList.remove('loaded');
+                
+                // Reset reveal buttons
+                const revealBtns = document.querySelectorAll('.reveal-btn');
+                revealBtns.forEach(btn => {
+                    btn.textContent = 'Reveal Videos';
+                    btn.style.background = '';
+                });
+            }
+            
+            // Visual feedback for reset
+            const resetBtn = event.target;
+            const originalText = resetBtn.textContent;
+            resetBtn.textContent = '✅ All Reset!';
+            resetBtn.style.background = '#4CAF50';
+            
+            setTimeout(() => {
+                resetBtn.textContent = originalText;
+                resetBtn.style.background = '';
+            }, 2000);
+        }
+        
+        // Initialize all questions with randomized videos
+        window.onload = function() {
+            for (let questionNum = 1; questionNum <= 5; questionNum++) {
+                randomizeVideos(questionNum);
+            }
+        };
+    </script>
+</body>
+</html>
